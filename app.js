@@ -3,7 +3,6 @@ import { getMessaging } from "firebase-admin/messaging";
 import express, { json } from "express";
 import cors from "cors";
 
-
 process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
 const app = express();
@@ -33,14 +32,11 @@ initializeApp({
 
 app.post("/send", function (req, res) {
   const receivedToken = req.body.token;
+  const notification = req.body.notification;
 
   const message = {
-    notification: {
-      title: "New Purchase",
-      body: "You have new purchases available for review.",
-    },
-    token:
-      receivedToken,
+    notification: notification,
+    token: receivedToken,
   };
 
   getMessaging()
