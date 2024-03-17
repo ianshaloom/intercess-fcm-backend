@@ -32,7 +32,13 @@ initializeApp({
 
 app.post("/send", function (req, res) {
   const receivedToken = req.body.token;
-  const notification = req.body.notification;
+
+  const title = req.body.title;
+  const body = req.body.body;
+  const notification = {
+    title: title,
+    body: body,
+  };
 
   const message = {
     notification: notification,
