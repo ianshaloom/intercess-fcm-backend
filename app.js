@@ -5,7 +5,7 @@ import cors from "cors";
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-const baseUrl = "https://dart-frog-backend-axoq040-ianshaloom.globeapp.dev";
+const baseUrl = "https://dart-frog-backend-0s0ldmb-ianshaloom.globeapp.dev";
 const endpoint = "/api/token";
 const url = baseUrl + endpoint;
 
