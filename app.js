@@ -5,7 +5,7 @@ import cors from "cors";
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-const baseUrl = "https://dart-frog-backend-qcsrtff-ianshaloom.globeapp.dev";
+const baseUrl = "https://dart-frog-backend-axoq040-ianshaloom.globeapp.dev";
 const endpoint = "/api/token";
 const url = baseUrl + endpoint;
 
@@ -55,7 +55,7 @@ app.post("/send", async function (req, res) {
       return tokens;
     } catch (error) {
       console.error("Error fetching tokens:", error);
-      // Consider returning an error object here
+      // Consider returning an error object here1
     }
   };
 
