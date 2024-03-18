@@ -5,6 +5,10 @@ import cors from "cors";
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
+const baseUrl = "https://dart-frog-backend-pqzj8oe-ianshaloom.globeapp.dev";
+const endpoint = "/api/token";
+const url = baseUrl + endpoint;
+
 const app = express();
 app.use(express.json());
 
@@ -31,34 +35,65 @@ initializeApp({
 });
 
 app.post("/send", function (req, res) {
-  const receivedToken = req.body.token;
+  // function to fetch tokens from an API using a get request
+  const fetchTokens = async () => {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
+      // Extract only the token values using map
+      const tokens = data.map((item) => Object.values(item)[0]);
+
+      return tokens;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // notification title and body
   const title = req.body.title;
   const body = req.body.body;
+
+  // construct notification
   const notification = {
     title: title,
     body: body,
   };
 
-  const message = {
-    notification: notification,
-    token: receivedToken,
-  };
+  fetchTokens()
+    .then((tokens) => {
+      const message = {
+        notification: notification,
+        token: tokens,
+      };
 
-  getMessaging()
-    .send(message)
+      return getMessaging().sendEachForMulticast(message); // Allow error propagation
+    })
     .then((response) => {
-      res.status(200).json({
-        message: "Successfully sent message",
-        token: receivedToken,
-      });
-      console.log("Successfully sent message:", response);
+      if (response.failureCount > 0) {
+        const failedTokens = response.responses
+          .filter((resp) => !resp.success)
+          .map((resp, idx) => tokens[idx]); // Access original tokens
+        // Store failed tokens persistently (if needed)
+        console.error("Failed tokens:", failedTokens);
+      }
+      console.log(
+        "Number of messages sent successfully:",
+        response.successCount
+      );
     })
     .catch((error) => {
-      res.status(400);
-      res.send(error);
-      console.log("Error sending message:", error);
+      console.error("Error sending messages:", error);
     });
+  
+  // Send response to client
+
+  res.status(200).json({
+    message: "Successfully sent message",
+  });
+
+
+  
 });
 
 app.listen(3000, function () {
