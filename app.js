@@ -5,7 +5,7 @@ import cors from "cors";
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-const baseUrl = "https://dart-frog-backend-pqzj8oe-ianshaloom.globeapp.dev";
+const baseUrl = "https://dart-frog-backend-qcsrtff-ianshaloom.globeapp.dev";
 const endpoint = "/api/token";
 const url = baseUrl + endpoint;
 
@@ -62,6 +62,8 @@ app.post("/send", function (req, res) {
 
   fetchTokens()
     .then((tokens) => {
+      console.log("Tokens:", tokens);
+      // construct message
       const message = {
         notification: notification,
         token: tokens,
@@ -83,17 +85,18 @@ app.post("/send", function (req, res) {
       );
     })
     .catch((error) => {
-      console.error("Error sending messages:", error);
+      // return error to client
+      res.status(400).json({
+        message: "Error sending message: ${error}",
+        error: error,
+      });
     });
-  
+
   // Send response to client
 
   res.status(200).json({
     message: "Successfully sent message",
   });
-
-
-  
 });
 
 app.listen(3000, function () {
