@@ -55,3 +55,47 @@
     .catch((error) => {
       console.log("Error getting tokens", error);
     }); */
+
+    
+
+
+//   T H I S IS T E S T I N G 2
+
+      /* fetchTokens()
+    .then((tokens) => {
+      console.log("Tokens:", tokens);
+      // construct message
+      const message = {
+        notification: notification,
+        token: tokens,
+      };
+
+      return getMessaging().sendEachForMulticast(message); // Allow error propagation
+    })
+    .then((response) => {
+      if (response.failureCount > 0) {
+        const failedTokens = response.responses
+          .filter((resp) => !resp.success)
+          .map((resp, idx) => tokens[idx]); // Access original tokens
+        // Store failed tokens persistently (if needed)
+        console.error("Failed tokens:", failedTokens);
+      }
+      console.log(
+        "Number of messages sent successfully:",
+        response.successCount
+      );
+    })
+    .catch((error) => {
+      // return error to client
+      res.status(400).json({
+        message: "Error sending message",
+        error: error,
+      });
+    });
+
+  // Send response to client
+
+  res.status(200).json({
+    message: "Successfully sent message",
+  });
+}); */
